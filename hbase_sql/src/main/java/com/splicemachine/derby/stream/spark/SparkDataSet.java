@@ -30,6 +30,7 @@ import com.splicemachine.derby.stream.function.*;
 import com.splicemachine.derby.stream.iapi.DataSet;
 import com.splicemachine.derby.stream.iapi.OperationContext;
 import com.splicemachine.derby.stream.iapi.PairDataSet;
+import com.splicemachine.derby.stream.iapi.TableChecker;
 import com.splicemachine.derby.stream.output.*;
 import com.splicemachine.utils.ByteDataInput;
 import org.apache.commons.codec.binary.Base64;
@@ -839,5 +840,4 @@ public class SparkDataSet<V> implements DataSet<V> {
         return new SparkUpdateTableWriterBuilder<>(((SparkPairDataSet) this.index(new EmptySparkPairDataSet<>()))
                 .wrapExceptions());
     }
-
 }

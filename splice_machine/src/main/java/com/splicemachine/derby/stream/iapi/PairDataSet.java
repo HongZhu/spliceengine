@@ -26,6 +26,7 @@ import scala.Tuple2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Stream of data acting on a key/values.
@@ -169,5 +170,5 @@ public interface PairDataSet<K,V> {
     <Op extends SpliceOperation, U> DataSet<U> mapPartitions(SpliceFlatMapFunction<Op, Iterator<Tuple2<K, V>>, U> f);
     String toString();
     DataSetWriterBuilder directWriteData() throws StandardException;
-
+    Map<K, V> collectAsMap();
 }

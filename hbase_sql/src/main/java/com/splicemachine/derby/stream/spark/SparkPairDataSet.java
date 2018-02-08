@@ -30,10 +30,8 @@ import com.splicemachine.derby.stream.output.UpdateDataSetWriterBuilder;
 import org.apache.spark.api.java.JavaPairRDD;
 import scala.Tuple2;
 import scala.util.Either;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  *
@@ -231,5 +229,10 @@ public class SparkPairDataSet<K,V> implements PairDataSet<K, V>{
         if(!isLast) return f.getSparkName();
         String plan = (f.getOperation() != null ? f.getOperation().getPrettyExplainPlan() : null);
         return (plan!=null && !plan.isEmpty()?plan:f.getSparkName());
+    }
+
+    @Override
+    public Map<K, V> collectAsMap() {
+        return rdd.collectAsMap();
     }
 }

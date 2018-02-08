@@ -237,4 +237,5 @@ public interface DataSetProcessor {
      */
     public void dropPinnedTable(long conglomerateId) throws StandardException;
 
+    TableChecker getTableChecker();
 }

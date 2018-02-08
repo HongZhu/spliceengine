@@ -604,4 +604,9 @@ public class SparkDataSetProcessor implements DistributedDataSetProcessor, Seria
     public void refreshTable(String location) {
         SpliceSpark.getSession().catalog().refreshByPath(location);
     }
+
+    @Override
+    public TableChecker getTableChecker() {
+        return new SparkTableChecker();
+    }
 }

@@ -293,5 +293,13 @@ public class ControlPairDataSet<K,V> implements PairDataSet<K,V> {
         };
     }
 
-
+    @Override
+    public Map <K, V> collectAsMap() {
+        Map<K,V> m = new HashMap();
+        while (source.hasNext()) {
+            Tuple2<K, V> t = source.next();
+            m.put(t._1(), t._2());
+        }
+        return m;
+    }
 }
