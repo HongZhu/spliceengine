@@ -14,7 +14,7 @@
 
 package com.splicemachine.compactions;
 
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.hadoop.conf.Configuration;

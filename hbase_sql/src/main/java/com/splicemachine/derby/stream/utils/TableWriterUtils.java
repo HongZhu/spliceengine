@@ -21,7 +21,7 @@ import com.splicemachine.derby.stream.output.direct.DirectTableWriterBuilder;
 import com.splicemachine.derby.stream.output.delete.DeleteTableWriterBuilder;
 import com.splicemachine.derby.stream.output.insert.InsertTableWriterBuilder;
 import com.splicemachine.derby.stream.output.update.UpdateTableWriterBuilder;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import org.apache.hadoop.conf.Configuration;
 import java.io.IOException;
 

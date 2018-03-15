@@ -25,7 +25,7 @@ import com.splicemachine.db.iapi.types.HBaseRowLocation;
 import com.splicemachine.derby.stream.ActivationHolder;
 import com.splicemachine.derby.stream.spark.SparkOperationContext;
 import com.splicemachine.metrics.Metrics;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.primitives.Bytes;
 import com.splicemachine.si.api.server.TransactionalRegion;
 import com.splicemachine.si.api.txn.Txn;
@@ -244,7 +244,8 @@ public class SMRecordReaderImpl extends RecordReader<RowLocation, ExecRow> imple
 					htable,
 					clock,
 					clientPartition,
-					driver.getConfiguration()
+					driver.getConfiguration(),
+					config
 			);
 			this.hregion = srs.getRegion();
 			this.mrs = srs;

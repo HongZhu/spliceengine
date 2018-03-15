@@ -20,6 +20,7 @@ import com.splicemachine.storage.PartitionServer;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Scott Fines
@@ -66,4 +67,6 @@ public interface PartitionAdmin extends AutoCloseable{
     void assign(Partition partition) throws IOException, InterruptedException;
 
     boolean tableExists(String tableName) throws IOException;
+
+    List<byte[]> hdfsOperation(String path, String operation) throws IOException;
 }

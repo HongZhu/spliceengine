@@ -18,7 +18,7 @@ import com.splicemachine.derby.test.framework.SpliceDataWatcher;
 import com.splicemachine.derby.test.framework.SpliceSchemaWatcher;
 import com.splicemachine.derby.test.framework.SpliceTableWatcher;
 import com.splicemachine.derby.test.framework.SpliceWatcher;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.si.constants.SIConstants;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.log4j.Logger;

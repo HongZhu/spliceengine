@@ -23,7 +23,7 @@ package com.splicemachine.mrio.api;
 import com.splicemachine.access.api.SConfiguration;
 import com.splicemachine.access.hbase.HBaseConnectionFactory;
 import com.splicemachine.access.hbase.HBaseTableInfoFactory;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.SMSQLUtil;
 import com.splicemachine.si.impl.driver.SIDriver;
 import org.apache.commons.logging.Log;

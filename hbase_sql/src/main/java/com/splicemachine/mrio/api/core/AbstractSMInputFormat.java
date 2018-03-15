@@ -21,7 +21,7 @@ import com.splicemachine.access.hbase.HBaseTableInfoFactory;
 import com.splicemachine.concurrent.Clock;
 import com.splicemachine.db.iapi.error.StandardException;
 import com.splicemachine.derby.impl.sql.execute.operations.scanner.TableScannerBuilder;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.si.impl.driver.SIDriver;
 import com.splicemachine.storage.ClientPartition;
 import com.splicemachine.storage.HScan;

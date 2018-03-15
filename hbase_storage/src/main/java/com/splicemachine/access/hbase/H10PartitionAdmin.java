@@ -21,19 +21,41 @@ import java.sql.SQLWarning;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.splicemachine.access.client.ReadOnlyTableDescriptor;
 import com.splicemachine.db.iapi.error.StandardException;
 import com.splicemachine.db.iapi.sql.Activation;
 import com.splicemachine.db.impl.jdbc.EmbedConnection;
 import com.splicemachine.db.jdbc.InternalDriver;
 import com.splicemachine.db.shared.common.reference.SQLState;
 import com.splicemachine.primitives.Bytes;
+import com.splicemachine.si.constants.SIConstants;
+import com.splicemachine.storage.ClientPartition;
 import com.splicemachine.utils.SpliceLogUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.BlockLocation;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.HdfsBlockLocation;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.exceptions.ConnectionClosingException;
+import org.apache.hadoop.hbase.regionserver.HRegion;
+import org.apache.hadoop.hbase.regionserver.Store;
+import org.apache.hadoop.hbase.regionserver.StoreFile;
+import org.apache.hadoop.hbase.util.FSUtils;
 import org.apache.hadoop.hbase.util.HBaseFsckRepair;
+import org.apache.hadoop.hdfs.DistributedFileSystem;
+import org.apache.hadoop.hdfs.HDFSUtil;
+import org.apache.hadoop.hdfs.protocol.LocatedBlock;
+import org.apache.hadoop.hdfs.protocol.proto.HdfsProtos;
+import org.apache.hadoop.hdfs.protocolPB.PBHelper;
+import org.apache.hadoop.io.DataOutputBuffer;
+import org.apache.hadoop.io.Writable;
 import org.apache.log4j.Logger;
 import org.spark_project.guava.base.Function;
 import org.apache.hadoop.hbase.*;
@@ -319,5 +341,68 @@ public class H10PartitionAdmin implements PartitionAdmin{
     public boolean tableExists(String tableName) throws IOException
     {
         return admin.tableExists(tableInfoFactory.getTableInfo(tableName));
+    }
+
+    @Override
+    public List<byte[]> hdfsOperation(String spath, String operation) throws IOException {
+        Configuration conf = admin.getConfiguration();
+        FileSystem fs = FileSystem.get(conf);
+        Path rootDir = FSUtils.getRootDir(conf);
+        Path path = new Path(spath);
+
+        switch (operation) {
+            case "tokens": {
+                FileStatus status = fs.getFileStatus(path);
+                BlockLocation[] blockLocations = fs.getFileBlockLocations(status, 0, status.getLen());
+                List<byte[]> results = new ArrayList<>();
+                for (BlockLocation bl : blockLocations) {
+                    if (!(bl instanceof HdfsBlockLocation)) {
+                        throw new UnsupportedOperationException("Unexpected block location of type " + bl.getClass());
+                    }
+                    HdfsBlockLocation hbl = (HdfsBlockLocation) bl;
+                    LocatedBlock locatedBlock = hbl.getLocatedBlock();
+                    HdfsProtos.LocatedBlockProto lbp = PBHelper.convert(locatedBlock);
+                    results.add(lbp.toByteArray());
+                }
+                return results;
+            }
+            case "status": {
+                FileStatus status = fs.getFileStatus(path);
+                byte[] bytes = toByteArray(status);  // deserialize with Writables.copyWritable
+                return Arrays.asList(bytes);
+            }
+            case "exists": {
+                boolean result = fs.exists(path);
+                return Arrays.asList( new byte [] {(byte) (result ? 1 : 0)});
+            }
+            case "list": {
+                FileStatus[] status = fs.listStatus(path);
+                byte[] bytes = toByteArray(status);  // deserialize with Writables.copyWritable
+                return Arrays.asList(bytes);
+            }
+            case "blocks": {
+                return Arrays.asList(PBHelper.convert(HDFSUtil.getBlocks((DistributedFileSystem)fs, spath)).toByteArray());
+            }
+        }
+        return null;
+    }
+
+    private static byte[] toByteArray(Writable... writables) {
+        final DataOutputBuffer out = new DataOutputBuffer();
+        try {
+            for(Writable w : writables) {
+                w.write(out);
+            }
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Fail to convert writables to a byte array",e);
+        }
+        byte[] bytes = out.getData();
+        if (bytes.length == out.getLength()) {
+            return bytes;
+        }
+        byte[] result = new byte[out.getLength()];
+        System.arraycopy(bytes, 0, result, 0, out.getLength());
+        return result;
     }
 }

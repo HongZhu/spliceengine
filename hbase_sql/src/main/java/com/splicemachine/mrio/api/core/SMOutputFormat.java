@@ -21,7 +21,7 @@ import java.util.List;
 import com.splicemachine.db.iapi.sql.execute.ExecRow;
 import com.splicemachine.db.iapi.types.RowLocation;
 import com.splicemachine.derby.stream.iapi.ScanSetBuilder;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.utils.SpliceLogUtils;
 import org.apache.hadoop.hive.serde2.SerDeException;
 import org.apache.hadoop.conf.Configurable;

@@ -15,7 +15,7 @@
 package com.splicemachine.compactions;
 
 import com.google.common.collect.Lists;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.AbstractSMInputFormat;
 import com.splicemachine.utils.SpliceLogUtils;
 import org.apache.hadoop.conf.Configuration;

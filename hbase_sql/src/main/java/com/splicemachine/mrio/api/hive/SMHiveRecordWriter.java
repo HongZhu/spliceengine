@@ -27,7 +27,7 @@ import com.splicemachine.derby.impl.sql.execute.operations.VTIOperation;
 import com.splicemachine.derby.stream.control.ControlDataSet;
 import com.splicemachine.derby.stream.iapi.DataSet;
 import com.splicemachine.derby.vti.SpliceIteratorVTI;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.SMSQLUtil;
 import com.splicemachine.si.api.txn.Txn;
 import com.splicemachine.si.api.txn.TxnView;

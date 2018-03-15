@@ -19,7 +19,7 @@ import com.splicemachine.access.client.MemStoreFlushAwareScanner;
 import com.splicemachine.access.client.MemstoreAware;
 import com.splicemachine.compactions.SpliceCompactionRequest;
 import com.splicemachine.derby.hbase.*;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.primitives.Bytes;
 import com.splicemachine.si.constants.SIConstants;
 import com.splicemachine.si.data.hbase.coprocessor.CoprocessorUtils;

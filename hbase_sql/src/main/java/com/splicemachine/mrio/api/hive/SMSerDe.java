@@ -40,7 +40,7 @@ import org.apache.hadoop.hive.common.type.HiveVarchar;
 import org.apache.hadoop.hive.common.type.HiveChar;
 import org.apache.hadoop.io.Writable;
 import org.apache.log4j.Logger;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.NameType;
 import com.splicemachine.mrio.api.core.SMSQLUtil;
 import com.splicemachine.mrio.api.serde.ExecRowWritable;

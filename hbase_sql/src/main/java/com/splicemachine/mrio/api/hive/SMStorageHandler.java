@@ -31,7 +31,7 @@ import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.OutputFormat;
 import org.apache.log4j.Logger;
 
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.SMSQLUtil;
 
 import java.sql.Connection;

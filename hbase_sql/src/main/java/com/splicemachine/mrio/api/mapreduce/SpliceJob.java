@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Job;
 
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.mrio.api.core.SMSQLUtil;
 /**
  * SpliceJob which controls submission of MapReduce Job

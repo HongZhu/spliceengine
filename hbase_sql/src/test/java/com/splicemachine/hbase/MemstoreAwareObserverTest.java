@@ -19,7 +19,7 @@ import com.splicemachine.access.client.MemstoreAware;
 import com.splicemachine.access.client.MemstoreKeyValueScanner;
 import com.splicemachine.collections.EmptyNavigableSet;
 import com.splicemachine.compactions.SpliceCompactionRequest;
-import com.splicemachine.mrio.MRConstants;
+import com.splicemachine.access.client.MRConstants;
 import com.splicemachine.si.constants.SIConstants;
 import org.apache.hadoop.hbase.DoNotRetryIOException;
 import org.apache.hadoop.hbase.HRegionInfo;

@@ -89,6 +89,7 @@ import com.splicemachine.utils.SpliceLogUtils;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.spark_project.guava.collect.Lists;
@@ -1660,5 +1661,40 @@ public class SpliceAdmin extends BaseAdminProcedures{
         if (!killed)
             throw  PublicAPI.wrapStandardException(StandardException.newException(LANG_NO_SUCH_RUNNING_OPERATION, uuidString));
     }
+
+
+    public static void SYSCS_HDFS_OPERATION(final String path, final String operation, final ResultSet[] resultSet) throws SQLException {
+
+
+        // TODO make sure the user can access the conglomerate
+
+        final GenericColumnDescriptor[] descriptors = {
+                new GenericColumnDescriptor("RESPONSE", DataTypeDescriptor.getBuiltInDataTypeDescriptor(Types.BLOB)),
+        };
+
+        EmbedConnection conn = (EmbedConnection)getDefaultConn();
+        LanguageConnectionContext lcc = conn.getLanguageConnection();
+        Activation lastActivation = conn.getLanguageConnection().getLastActivation();
+
+        List<ExecRow> rows = new ArrayList<>();
+        try(PartitionAdmin admin=SIDriver.driver().getTableFactory().getAdmin()){
+            List<byte[]> results = admin.hdfsOperation(path, operation);
+            for (byte[] result : results) {
+                ExecRow row = new ValueRow(1);
+                row.setColumn(1, new SQLBlob(result));
+                rows.add(row);
+            }
+        } catch (IOException ioe) {
+            throw PublicAPI.wrapStandardException(Exceptions.parseException(ioe));
+        }
+        IteratorNoPutResultSet resultsToWrap = new IteratorNoPutResultSet(rows, descriptors, lastActivation);
+        try {
+            resultsToWrap.openCore();
+        } catch (StandardException se) {
+            throw PublicAPI.wrapStandardException(se);
+        }
+        resultSet[0] = new EmbedResultSet40(conn, resultsToWrap, false, null, true);
+    }
+
 
 }
